@@ -1,0 +1,36 @@
+<p id="notice"><%= notice %></p>
+
+
+<p>
+  
+  <%= @event.title %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @event.date %>
+</p>
+
+<p>
+  <strong>Adress:</strong>
+  <%= @event.adress %>
+</p>
+
+<p>
+  <strong>Image:</strong>
+  <scope="col">Image: <%= image_tag @event.image_url, height: 200 if @event.image %>
+  </p>
+
+
+<p>
+  <strong>Description:</strong>
+  <%= @event.description %>
+</p>
+
+
+<% if user_signed_in? && current_user.role === 'admin' %>
+  <%= link_to 'Refuser', @event, method: :delete, data: { confirm: 'Êtes-vous sûr ?' } %>
+  <%= link_to 'Edit', edit_event_path(@event) %> 
+<% end %>
+
+<%= link_to 'Back', events_path %>
