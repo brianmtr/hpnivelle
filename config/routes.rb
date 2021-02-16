@@ -7,13 +7,18 @@ Rails.application.routes.draw do
   resources :events
   resources :users
   get '/users/index'
+  resources :contacts, only: [:new, :create]
+  
   post '/users/:id', to: 'users#role'
 
-  post '/events/:id', to: 'admins#accept'
-  post '/homes/:id', to: 'admins#accepted'
+  post '/events/:id', to: 'events#validate'
+  
+ 
 
 
-
+  post '/homes/:id', to: 'homes#accepted'
+ 
+  
 
   get 'posts/index'
   root 'homes#index'

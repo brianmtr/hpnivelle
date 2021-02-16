@@ -18,13 +18,9 @@
 
   <div class="field">
     <%= form.label :date %>
-    <%= form.text_field :date %>
+    <%= form.date_field :date %>
   </div>
 
-  <div class="field">
-    <%= form.label :Heur %>
-    <%= form.text_field :hour %>
-  </div>
 
   <div class="field">
     <%= form.label :adress %>
@@ -36,15 +32,11 @@
     <%= form.text_area :description %>
   </div>
 
-
-
-
   <div class="field">
   <%= form.label :image %>
   <%= form.hidden_field :image, value: event.cached_image_data %>
   <%= form.file_field :image %>
   </div>
-
 
   <div class="actions">
     <%= form.submit %>

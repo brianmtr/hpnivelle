@@ -48,6 +48,15 @@ class HomesController < ApplicationController
     end
   end
 
+  def accepted
+    @home = Home.find(params[:id])
+    @home.accepted = true
+    @home.save
+    redirect_to '/homes', notice: "l'évenement a bien été accepté."
+  end
+
+
+
   # DELETE /homes/1 or /homes/1.json
   def destroy
     @home.destroy

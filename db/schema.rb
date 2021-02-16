@@ -14,12 +14,13 @@ ActiveRecord::Schema.define(version: 2021_02_04_151819) do
 
   create_table "events", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title"
-    t.string "date"
-    t.string "hour"
+    t.datetime "date"
     t.string "adress"
     t.text "description"
-    t.boolean "accept", default: false
-    t.boolean "denied", default: false
+    t.integer "status"
+    t.integer "participate"
+    t.integer "maybe_participate"
+    t.integer "not_participate"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "image_data"

@@ -55,7 +55,19 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-gem 'shrine'
+
+#for authentification systeme
 gem 'devise'
+
+#for upload image
+gem 'shrine'
 gem 'fastimage'
+
+#for autorization user/admin
 gem 'cancancan'
+
+#for form contact
+gem 'mail_form'
+
+#for gestion status event
+gem 'sidekiq'

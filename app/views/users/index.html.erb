@@ -1,14 +1,25 @@
 <h1>Users#index</h1>
 <p>Find me in app/views/users/index.html.erb</p>
-<% @users.each do |user| %>    <table class="table table-striped">    <ul class="list-group">
-    <li class="list-group-item active" aria-current="true"></li>
-    <li class="list-group-item"><%= user.firstname %>
+<% @users.each do |user| %>    
+    <table class="table table-striped">   
+    <ul class="list-group">
+    <li class="list-group-item active" aria-current="true">
+        <% if user.role === 'admin' %>
+    <strong><%= user.role %></strong>
+    <% else %>
+    <strong>Utilisateur classique</strong>
+    <% end %>
+    </li>
+
+    <li class="list-group-item">
+
+    <%= user.firstname %>
     <br>
     <%= user.lastname %>
     <br>
     <%= user.email %>
-    <%= user.id %>
     </li>
     </ul>
-    <%= link_to 'Accepter', users_index_path, method: :role %>    </table>
+  
+    <%= link_to 'Accepter', user, method: :role, data: { confirm: 'Êtes-vous sûr ?' } %>
     <% end %>

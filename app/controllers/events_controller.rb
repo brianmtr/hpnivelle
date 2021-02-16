@@ -1,13 +1,14 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: %i[ show edit update destroy ]
+   before_action :set_event, only: %i[ show edit update destroy ]
 
-  # GET /events or /events.json
+   # GET /events or /events.json
   def index
     @events = Event.all
   end
 
   # GET /events/1 or /events/1.json
   def show
+    @event = Event.find(params[:id])
   end
 
   # GET /events/new
@@ -48,6 +49,50 @@ class EventsController < ApplicationController
     end
   end
 
+  def participate
+    @event = Event.find(params[:id])
+    @event.participate + 1
+    @event.save
+    redirect_to '/events/'
+  end
+
+  def validate
+    @event = Event.find(params[:id])
+    status = @event.status 
+    case status
+
+  when nil
+    @event.status = 'proposed'
+    @event.save
+    redirect_to '/events/', notice: "l'évenement a bien été accepté."
+  
+  when 'proposed' 
+    @event.status = 'accepted'
+    @event.save
+    if @event.status === 'accepted' && Date.today > @event.date 
+    @event.status = 'past'
+    @event.save
+    redirect_to '/events/', notice: "l'évenement a bien été accepté."
+    end
+  end
+end
+
+def past
+  if @event.status === 'accepted' && Date.today > @event.date 
+    @event.status = 'past'
+    @event.save
+  end
+end
+helper_method :past
+
+
+
+  def denied
+    @event = Event.find(params[:id])
+    @event.denied = true
+    @event.save
+    redirect_to events_url, notice: "l'évenement a bien été refusé."
+  end
   # DELETE /events/1 or /events/1.json
   def destroy
     @event.destroy
@@ -65,7 +110,7 @@ class EventsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def event_params
-      params.require(:event).permit(:title, :date, :hour, :adress, :description, :image)
+      params.require(:event).permit(:title, :date, :adress, :description, :image)
 
     end
 end

@@ -10,7 +10,7 @@
     </tr>
   </thead>
 <% @events.each do |event| %>
-  <td><% if event.accept %>
+  <td><% if event.status === "accepted" %>
     <tbody>
       <tr>
         <td><%= event.title %></td>

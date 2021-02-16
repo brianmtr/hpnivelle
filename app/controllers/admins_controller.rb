@@ -5,6 +5,7 @@ class AdminsController < ApplicationController
 def index
   @events = Event.all
   @homes = Home.all
+  @users = User.all
 end
 
 # GET /events/1 or /events/1.json
@@ -48,30 +49,33 @@ def update
   end
 end
 
+def role
+  @user = User.find(params[:id])
+  @user.role = 'admin'
+  @user.save
+  redirect_to '/users', notice: "l'évenement a bien été accepté."
+end
+
 
 def accepted
   @home = Home.find(params[:id])
   @home.accepted = true
   @home.save
-  redirect_to '/admins/index', notice: "l'évenement a bien été accepté."
-
+  redirect_to '/homes', notice: "l'évenement a bien été accepté."
 end
 
 
-def accept
+
+
+
+
+def denied
   @event = Event.find(params[:id])
-  @event.accept = true
+  @event.denied = true
   @event.save
-  redirect_to '/admins/index', notice: "l'évenement a bien été accepté."
+  redirect_to events_url, notice: "l'évenement a bien été refusé."
 end
 
-# def denied
-#   @event = Event.find(params[:id])
-#   @event.denied = true
-#   @event.save
-#   redirect_to events_url, notice: "l'évenement a bien été refusé."
-# end
-# DELETE /events/1 or /events/1.json
 def destroy
   @event.destroy
   respond_to do |format|
@@ -84,11 +88,9 @@ private
   # Use callbacks to share common setup or constraints between actions.
   def set_event
     @event = Event.find(params[:id])
-  end
+  end  
 
   # Only allow a list of trusted parameters through.
-  def event_params
-    params.require(:event).permit(:title, :date, :hour, :adress, :description, :image)
-  end
+
 end
 

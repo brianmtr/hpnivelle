@@ -1,0 +1,27 @@
+<h1 class="page_title">Bonjour</h1>
+
+<%= form_for(@contact) do |f| %>
+
+    <div class="field">
+      <%= f.label :name %><br>
+      <%= f.text_field :name %>
+    </div>
+  
+    <div class="field">
+      <%= f.label :email %><br>
+      <%= f.text_field :email %>
+    </div>
+
+    <div class="field">
+    <%= f.label :message %><br>
+    <textarea></textarea>
+  </div>
+  
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+  <% end %>
+
+
+
+

@@ -2,13 +2,13 @@ class CreateEvents < ActiveRecord::Migration[6.1]
   def change
     create_table :events do |t|
       t.string :title
-      t.string :date
-      t.string :hour
+      t.datetime :date
       t.string :adress
       t.text :description
-      t.boolean :accept, default: false
-      t.boolean :denied, default: false
-
+      t.integer :status
+      t.integer :participate
+      t.integer :maybe_participate
+      t.integer :not_participate
 
       t.timestamps
     end

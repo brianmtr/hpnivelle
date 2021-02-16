@@ -4,33 +4,131 @@
   <%= current_user.firstname %>
 <% end %>
 </p>
-<h2>Évenements</h2>
 
+<% @events.each do |event| %>
+
+  <%if event.status === 'accepted' && Date.today < event.date %>
+  
+<h2>Les évènements à venir</h2>
+  <table class="table table-striped"
+
+  <tbody>
+
+    <div id="accordion">
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          <%= event.title %> <br><%= link_to 'Voir évenement', event_path(event.id) %>
+          <%= link_to 'Refuser', event, method: :delete, data: { confirm: 'Êtes-vous sûr ?' } %>
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+      <div class="card-body">
+     
+        <scope="col">Titre: <%= event.title %><br>
+        <scope="col">Date: <%= event.date %><br>
+        <scope="col">Adresse: <%= event.adress %><br><br>
+        <scope="col">Description:<br> <%= event.description %><br>
+        <scope="col">Image: <%= image_tag event.image_url, height: 200 if event.image %><br>
+   
+      </div>
+    </div>
+  </div>
+</div>
+</tbody>
+</table>
+<% else %>
+
+   <% if Date.today > event.date   %>
+   <% @past %>
+<h2>Les évènements passé</h2>
+  <table class="table table-striped">
+
+  <tbody>
+
+    <div id="accordion">
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          <%= event.title %> <br><%= link_to 'Voir évenement', event_path(event.id) %>
+          <%= link_to 'Refuser', event, method: :delete, data: { confirm: 'Êtes-vous sûr ?' } %>
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+      <div class="card-body">
+     
+        <scope="col">Titre: <%= event.title %><br>
+        <scope="col">Date: <%= event.date %><br>
+        <scope="col">Adresse: <%= event.adress %><br><br>
+        <scope="col">Description:<br> <%= event.description %><br>
+        <scope="col">Image: <%= image_tag event.image_url, height: 200 if event.image %><br>
+   
+      </div>
+    </div>
+  </div>
+</div>
+</tbody>
+</table>
+
+<% end %>
+<% end %>
+ 
 
 
 <table>
-  <% @events.each do |event| %>
-    <% if event.accept %>
-  <tbody>      
-    <tr>
-      <th><%= event.title %></th><br>
-      <td><%= event.date %></td>
-      <td><%= event.hour %></td>
-      <td><%= event.adress %></td>
-      <td><%= event.description %></td>
-      <td><%= image_tag event.image_url, height: 200 if event.image %></td>
-      <td><%= link_to 'Voir événement', event_path(event.id) %></td>
-    </tr>
-  <br>
-  <% end %>
+<% if event.status === 'proposed' %>
+<h2>Les évènements proposés</h2>
+  <table class="table table-striped">
+
+  <tbody>
+
+    <div id="accordion">
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        <%= event.title %> <br><%= link_to 'Voir évenement', event_path(event.id) %>
+        <%= link_to 'Refuser', event, method: :delete, data: { confirm: 'Êtes-vous sûr ?' } %>
+        
+        <%=  link_to 'Accepter', event, method: :validate %>
+
+        </button>
+        
+      </h5>
+      
+    </div>
+
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+      <div class="card-body">
+     
+      <scope="col">Titre: <%= event.title %><br>
+      <scope="col">Date: <%= event.date %><br>
+      <scope="col">Adresse: <%= event.adress %><br><br>
+      <scope="col">Description:<br> <%= event.description %><br>
+      <scope="col">Image: <%= image_tag event.image_url, height: 200 if event.image %><br>
+   
+      </div>
+    </div>
+  </div>
+</div>
   </tbody>
 </table>
-    <% end %>
+  <% end %>
+
+
+<% end %>
+
 <br>
 
 <h2>Commentaire</h2>
 
-<table>
+
   <% @homes.each do |home| %>
     
     <% if home.accepted %>
@@ -39,27 +137,28 @@
   <a href="#" class="list-group-item list-group-item-action active" aria-current="true" style="width: 60%">
     <div class="d-flex w-100 justify-content-between">
     
-      <h5 class="mb-1"><th>
+      <h5 class="mb-1">
       <% if user_signed_in? %>
       <%= current_user.firstname %>
+
       <% else %>
       <% end %>
-      </th></h5>
-      <small><td><%= home.created_at %></td></small>
-      
+      </h5>
+      <%= home.created_at %>
+      <p class="mb-1"><%= home.description %></p>
     </div>
-    <p class="mb-1"><td><%= home.description %></td></small>
+    
   </a>
   <%= link_to 'Supprimer', home, method: :delete, data: { confirm: 'Êtes-vous sûr ?' } %>
 
 </div>
 
 
-</table>
 
 
 <% end %>
 <% end %>
+
 
 <%= link_to 'New Comment', new_home_path %>
 
